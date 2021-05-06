@@ -10,7 +10,7 @@ Educational "Project #3" is being developed as part of "Frontend Javascript" pro
 
 # RSS aggregator
 
-[![Node.js CI](https://github.com/ushachev/frontend-project-lvl3/actions/workflows/Node.js%20CI/badge.svg)](https://github.com/ushachev/frontend-project-lvl3/actions/workflows/nodejs.yml)
+[![Node.js CI](https://github.com/ushachev/frontend-project-lvl3/actions/workflows/nodejs.yml/badge.svg)](https://github.com/ushachev/frontend-project-lvl3/actions/workflows/nodejs.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/10b4dd5a9a76b0a4da6c/maintainability)](https://codeclimate.com/github/ushachev/frontend-project-lvl3/maintainability)
 
 RSS reader web application
