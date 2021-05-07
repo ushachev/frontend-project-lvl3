@@ -7,7 +7,42 @@
   <title>RSS reader</title>
 </head>
 
-<body>
+<body class="d-flex flex-column min-vh-100">
+  <main class="d-flex flex-column flex-grow-1">
+    <section class="container-fluid my-auto p-5">
+      <div class="row">
+        <div class="col-md-10 col-lg-8 mx-auto">
+          <h1 class="display-4">rss aggregator</h1>
+          <form action="">
+            <div class="row align-items-center">
+              <div class="col">
+                <div class="form-floating">
+                  <input autofocus required name="url" aria-label="url" class="form-control fs-5" id="url" placeholder="ссылка rss">
+                  <label for="url">ссылка rss</label>
+                </div>
+              </div>
+              <div class="col-auto">
+                <button type="submit" aria-label="add" class="btn btn-secondary fs-5 px-sm-5 py-3">добавить</button>
+              </div>
+            </div>
+          </form>
+          <p class="text-muted my-1">пример: https://ru.hexlet.io/lessons.rss</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="list-group m-3 px-2 px-md-5 py-4 bg-body">
+    <div class="row">
+      <div class="col-auto">
+        <a href="https://github.com/ushachev/frontend-project-lvl3" target="_blank">
+          <span>github</span>
+        </a>
+      </div>
+      <div class="col-auto ms-auto">
+        <span>ushachev, 2021</span>
+      </div>
+    </div>
+  </footer>
 </body>
 
 </html>
