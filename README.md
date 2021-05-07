@@ -14,3 +14,5 @@ Educational "Project #3" is being developed as part of "Frontend Javascript" pro
 [![Maintainability](https://api.codeclimate.com/v1/badges/10b4dd5a9a76b0a4da6c/maintainability)](https://codeclimate.com/github/ushachev/frontend-project-lvl3/maintainability)
 
 RSS reader web application
+
+[frontend-project-lvl3-vitush-hexlet.vercel.app](https://frontend-project-lvl3-vitush-hexlet.vercel.app)

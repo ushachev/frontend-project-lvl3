@@ -1,10 +1,14 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const mode = process.env.NODE_ENV || 'development';
+const isDevelopment = mode === 'development';
+
 module.exports = {
-  mode: process.env.NODE_ENV || 'development',
+  mode,
   output: {
     clean: true,
   },
+  target: isDevelopment ? 'web' : 'browserslist',
   module: {
     rules: [
       {
