@@ -12,6 +12,7 @@ Educational "Project #3" is being developed as part of "Frontend Javascript" pro
 
 [![Node.js CI](https://github.com/ushachev/frontend-project-lvl3/actions/workflows/nodejs.yml/badge.svg)](https://github.com/ushachev/frontend-project-lvl3/actions/workflows/nodejs.yml)
 [![Maintainability](https://api.codeclimate.com/v1/badges/10b4dd5a9a76b0a4da6c/maintainability)](https://codeclimate.com/github/ushachev/frontend-project-lvl3/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/10b4dd5a9a76b0a4da6c/test_coverage)](https://codeclimate.com/github/ushachev/frontend-project-lvl3/test_coverage)
 
 RSS reader web application
 

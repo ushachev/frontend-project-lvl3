@@ -10,6 +10,9 @@ build:
 test:
 	npm test -- --passWithNoTests
 
+test-coverage:
+	npm test -- --coverage --coverageProvider=v8
+
 lint:
 	npx eslint .
 

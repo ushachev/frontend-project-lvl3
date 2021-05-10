@@ -2,8 +2,6 @@
 <html lang="ru">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>RSS reader</title>
 </head>
 
@@ -18,37 +16,25 @@
               <div class="col">
                 <div class="form-floating">
                   <input autofocus required name="url" aria-label="url" class="form-control fs-5" id="url" placeholder="ссылка rss">
-                  <label for="url">ссылка rss</label>
+                  <label for="url">rss link</label>
                 </div>
               </div>
               <div class="col-auto">
-                <button type="submit" aria-label="add" class="btn btn-secondary fs-5 px-sm-5 py-3">добавить</button>
+                <button type="submit" aria-label="add" class="btn btn-secondary fs-5 px-sm-5 py-3">add</button>
               </div>
             </div>
           </form>
-          <p class="text-muted my-1">пример: https://ru.hexlet.io/lessons.rss</p>
+          <p class="text-muted my-1">example: https://ru.hexlet.io/lessons.rss</p>
           <div id="feedback"></div>
         </div>
       </div>
     </section>
     <section class="container-fluid p-5">
       <div class="row">
-        <div id="feedsContainer" class="col-8 mx-auto"></div>
+        <div id="feedsContainer" class="col"></div>
       </div>
     </section>
   </main>
-  <footer class="navbar flex-column align-items-stretch m-3 px-2 px-md-5 py-4 bg-body">
-    <div class="row">
-      <div class="col-auto">
-        <a href="https://github.com/ushachev/frontend-project-lvl3" target="_blank">
-          <span>github</span>
-        </a>
-      </div>
-      <div class="col-auto ms-auto">
-        <span>ushachev, 2021</span>
-      </div>
-    </div>
-  </footer>
 </body>
 
 </html>

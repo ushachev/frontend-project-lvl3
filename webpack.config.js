@@ -9,6 +9,7 @@ module.exports = {
     clean: true,
   },
   target: isDevelopment ? 'web' : 'browserslist',
+  devtool: isDevelopment ? 'eval-cheap-module-source-map' : 'source-map',
   module: {
     rules: [
       {
