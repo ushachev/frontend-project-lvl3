@@ -1,7 +1,7 @@
 import onChange from 'on-change';
 
 const renderForm = (state, view) => {
-  switch (state.rssForm.status) {
+  switch (state.rssForm.processState) {
     case 'filling':
       view.disableForm(false);
       view.rssUrlInput.focus();
@@ -11,23 +11,23 @@ const renderForm = (state, view) => {
       view.disableForm(true);
       break;
 
-    case 'success':
-      view.renderFeedback(state);
+    case 'completed':
       view.rssForm.reset();
       break;
 
     default:
-      throw Error(`Unknown form status: ${state.rssForm.status}`);
+      throw Error(`Unknown form state: ${state.rssForm.processState}`);
   }
 };
 
 export default (state, view) => {
   const statePathMapping = {
-    'rssForm.status': () => renderForm(state, view),
-    'rssForm.validationError': () => view.renderFeedback(state),
+    'rssForm.processState': () => renderForm(state, view),
+    'rssForm.processResult': () => view.renderFeedback(state),
+    'rssForm.valid': () => view.rssUrlInput.classList.toggle('is-invalid'),
     appStatus: () => view.rssQuerySection.classList.toggle('my-auto'),
     feeds: () => view.renderFeeds(state.feeds),
-    appError: () => {},
+    posts: () => view.renderPosts(state.posts),
   };
 
   return onChange(state, (path) => statePathMapping[path]?.());

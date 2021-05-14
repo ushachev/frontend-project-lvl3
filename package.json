@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "rss reader web app",
   "jest": {
+    "testURL": "https://hexlet-allorigins.herokuapp.com",
     "testRunner": "jest-circus/runner"
   },
   "scripts": {
@@ -40,13 +41,17 @@
     "html-webpack-plugin": "^5.3.1",
     "jest": "^26.6.3",
     "jest-circus": "^26.6.3",
+    "nock": "^13.0.11",
     "style-loader": "^2.0.0",
     "webpack": "^5.36.2",
+    "webpack-bundle-analyzer": "^4.4.1",
     "webpack-cli": "^4.6.0",
     "webpack-dev-server": "^3.11.2"
   },
   "dependencies": {
+    "axios": "^0.21.1",
     "bootswatch": "^5.0.0",
+    "lodash": "^4.17.21",
     "on-change": "^3.0.1",
     "yup": "^0.32.9"
   }

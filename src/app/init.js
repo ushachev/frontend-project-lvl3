@@ -1,6 +1,9 @@
 import * as yup from 'yup';
+import axios from 'axios';
+import uniqueId from 'lodash/uniqueId';
 import View from './View.js';
 import initRenderer from './renderer.js';
+import parseUrlData from './parser.js';
 
 const schema = yup
   .string()
@@ -8,16 +11,26 @@ const schema = yup
   .required()
   .url();
 
-const sendRequest = (url) => new Promise((resolve) => setTimeout(resolve, 500, { data: url }));
+const proxyUrl = 'https://hexlet-allorigins.herokuapp.com/raw';
+const sendRequest = (url) => axios.get(proxyUrl, { params: { url } });
+
+const pushRssDataToState = (state, url, feed, posts) => {
+  const id = uniqueId();
+  const relationedPosts = posts.map((post) => ({ feedId: id, ...post }));
+
+  state.feeds.push({ id, url, ...feed });
+  state.posts.push(...relationedPosts);
+};
 
 export default () => {
   const state = {
     appStatus: 'initial',
-    appError: null,
     feeds: [],
+    posts: [],
     rssForm: {
-      status: 'filling',
-      validationError: null,
+      valid: true,
+      processState: 'filling',
+      processResult: null,
     },
   };
   const view = new View();
@@ -28,26 +41,33 @@ export default () => {
 
     const formData = new FormData(e.target);
 
-    watchedState.rssForm.status = 'processing';
+    watchedState.rssForm.valid = true;
+    watchedState.rssForm.processResult = null;
+    watchedState.rssForm.processState = 'processing';
+
     schema.validate(formData.get('url'))
       .then((url) => {
-        watchedState.rssForm.validationError = null;
-        return sendRequest(url);
+        const isUrlUniq = !watchedState.feeds.find((feed) => feed.url === url);
+
+        if (isUrlUniq) return sendRequest(url);
+
+        throw new yup.ValidationError('RSS already exists');
       })
-      .then(({ data }) => {
+      .then(({ config, data }) => {
+        const { feed, posts } = parseUrlData(data);
+
         watchedState.appStatus = 'filled';
-        watchedState.feeds.push(data);
-        watchedState.rssForm.status = 'success';
+        watchedState.rssForm.processState = 'completed';
+        watchedState.rssForm.processResult = 'RSS loaded successfully';
+
+        pushRssDataToState(watchedState, config.params.url, feed, posts);
       })
       .catch((err) => {
-        if (err.name === 'ValidationError') {
-          watchedState.rssForm.validationError = err.message;
-          return;
-        }
-        watchedState.appError = err.message;
+        watchedState.rssForm.valid = err.name !== 'ValidationError';
+        watchedState.rssForm.processResult = err.message;
       })
       .then(() => {
-        watchedState.rssForm.status = 'filling';
+        watchedState.rssForm.processState = 'filling';
       });
   });
 };

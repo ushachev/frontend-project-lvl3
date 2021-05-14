@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>Example feed title</title>
+    <description>Example feed description</description>
+    <link>https://example-rss.io</link>
+    <item>
+      <title>Example post title</title>
+      <link>https://example-rss.io/example-post</link>
+      <description>Example post description</description>
+    </item>
+  </channel>
+</rss>

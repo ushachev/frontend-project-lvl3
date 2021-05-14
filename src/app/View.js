@@ -6,37 +6,49 @@ export default class View {
     this.submitBtn = this.rssForm.querySelector('button[type="submit"]');
     this.feedback = document.querySelector('#feedback');
     this.feedsContainer = document.querySelector('#feedsContainer');
+    this.postsContainer = document.querySelector('#postsContainer');
   }
 
   disableForm(isDisabled) {
-    if (isDisabled) {
-      this.rssUrlInput.setAttribute('disabled', true);
-      this.submitBtn.setAttribute('disabled', true);
-    } else {
-      this.rssUrlInput.removeAttribute('disabled');
-      this.submitBtn.removeAttribute('disabled');
-    }
+    this.rssUrlInput.disabled = isDisabled;
+    this.submitBtn.disabled = isDisabled;
   }
 
-  renderFeedback(state) {
-    if (state.rssForm.status === 'success') {
-      this.feedback.classList.remove('text-danger');
-      this.feedback.classList.add('text-success');
-      this.feedback.textContent = 'RSS loaded successfully';
-    } else {
-      this.feedback.classList.remove('text-success');
-      this.feedback.classList.add('text-danger');
-      this.feedback.textContent = state.rssForm.validationError;
-    }
+  renderFeedback({ rssForm: { processState, processResult } }) {
+    const classValue = processState === 'completed' ? 'text-success' : 'text-danger';
+    this.feedback.innerHTML = processResult === null
+      ? ''
+      : `<span class="${classValue}">${processResult}</span>`;
   }
 
   renderFeeds(feeds) {
-    if (!this.feedList) {
-      this.feedList = document.createElement('ul');
-      this.feedList.classList.add('list-group');
-      this.feedsContainer.append(this.feedList);
-    }
-    const feedItems = feeds.map((feed) => `<li class="list-group-item">${feed}</li>`);
-    this.feedList.innerHTML = feedItems.join('\n');
+    const feedItems = feeds.map(({ title, description }) => `
+      <li class="list-group-item">
+        <h3>${title}</h3>
+        <p>${description}</p>
+      </li>
+    `);
+
+    this.feedsContainer.innerHTML = `
+      <h2>feeds</h2>
+      <ul class="list-group">
+        ${feedItems.join('\n')}
+      </ul>
+    `;
+  }
+
+  renderPosts(posts) {
+    const postItems = posts.map(({ title, link }) => `
+      <li class="list-group-item p-3">
+        <a href="${link}" target="_blank">${title}</a>
+      </li>
+    `);
+
+    this.postsContainer.innerHTML = `
+      <h2>posts</h2>
+      <ul class="list-group">
+        ${postItems.join('\n')}
+      </ul>
+    `;
   }
 }

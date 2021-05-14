@@ -18,22 +18,25 @@
               <div class="col">
                 <div class="form-floating">
                   <input autofocus required name="url" aria-label="url" class="form-control fs-5" id="url" placeholder="ссылка rss">
-                  <label for="url">ссылка rss</label>
+                  <label for="url">rss link</label>
                 </div>
               </div>
               <div class="col-auto">
-                <button type="submit" aria-label="add" class="btn btn-secondary fs-5 px-sm-5 py-3">добавить</button>
+                <button type="submit" aria-label="add" class="btn btn-secondary fs-5 px-sm-5 py-3">add</button>
               </div>
             </div>
           </form>
-          <p class="text-muted my-1">пример: https://ru.hexlet.io/lessons.rss</p>
+          <p class="text-muted my-1">example: https://ru.hexlet.io/lessons.rss</p>
           <div id="feedback"></div>
         </div>
       </div>
     </section>
-    <section class="container-fluid p-5">
-      <div class="row">
+    <section class="container-fluid mb-5 p-5">
+      <div class="row mb-5">
         <div id="feedsContainer" class="col-8 mx-auto"></div>
+      </div>
+      <div class="row">
+        <div id="postsContainer" class="col-8 mx-auto"></div>
       </div>
     </section>
   </main>
