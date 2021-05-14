@@ -1,5 +1,6 @@
 export default class View {
-  constructor() {
+  constructor(i18nInstance) {
+    this.i18n = i18nInstance;
     this.rssQuerySection = document.querySelector('#rssQuery');
     this.rssForm = document.querySelector('#rssForm');
     this.rssUrlInput = document.querySelector('#url');
@@ -30,7 +31,7 @@ export default class View {
     `);
 
     this.feedsContainer.innerHTML = `
-      <h2>feeds</h2>
+      <h2>${this.i18n.t('elements.feedsTitle')}</h2>
       <ul class="list-group">
         ${feedItems.join('\n')}
       </ul>
@@ -45,7 +46,7 @@ export default class View {
     `);
 
     this.postsContainer.innerHTML = `
-      <h2>posts</h2>
+      <h2>${this.i18n.t('elements.postsTitle')}</h2>
       <ul class="list-group">
         ${postItems.join('\n')}
       </ul>

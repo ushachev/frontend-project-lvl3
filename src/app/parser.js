@@ -3,7 +3,7 @@ export default (data) => {
   const xml = parser.parseFromString(data, 'application/xml');
 
   if (xml.documentElement.nodeName !== 'rss') {
-    throw new Error('Resource does not contain valid RSS');
+    throw new Error('errors.parsing');
   }
 
   const feed = {

@@ -53,7 +53,7 @@ test('can add url, cannot add the same one again', async () => {
     expect(screen.getByText('Example feed title')).toBeInTheDocument();
     expect(screen.getByText('Example feed description')).toBeInTheDocument();
     expect(screen.getByText('Example post title')).toBeInTheDocument();
-    expect(screen.getByText('RSS loaded successfully')).toBeInTheDocument();
+    expect(screen.getByText('RSS успешно загружен')).toBeInTheDocument();
     expect(elements.submit).not.toBeDisabled();
   });
 
@@ -61,7 +61,7 @@ test('can add url, cannot add the same one again', async () => {
   userEvent.click(elements.submit);
 
   await waitFor(() => {
-    expect(screen.getByText('RSS already exists')).toBeInTheDocument();
+    expect(screen.getByText('RSS уже существует')).toBeInTheDocument();
   });
 });
 
@@ -70,14 +70,14 @@ test('validate invalid input url', async () => {
   userEvent.click(elements.submit);
 
   await waitFor(() => {
-    expect(screen.getByText('this is a required field')).toBeInTheDocument();
+    expect(screen.getByText('не должно быть пустым')).toBeInTheDocument();
   });
 
   userEvent.type(elements.input, 'ru.hexlet.io/lessons.rss');
   userEvent.click(elements.submit);
 
   await waitFor(() => {
-    expect(screen.getByText('this must be a valid URL')).toBeInTheDocument();
+    expect(screen.getByText('Ссылка должна быть валидным URL')).toBeInTheDocument();
   });
 });
 
@@ -89,6 +89,6 @@ test('handle resource that does not contain valid rss', async () => {
   userEvent.click(elements.submit);
 
   await waitFor(() => {
-    expect(screen.getByText('Resource does not contain valid RSS')).toBeInTheDocument();
+    expect(screen.getByText('Ресурс не содержит валидный RSS')).toBeInTheDocument();
   });
 });

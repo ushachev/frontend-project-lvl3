@@ -1,9 +1,22 @@
 import * as yup from 'yup';
 import axios from 'axios';
 import uniqueId from 'lodash/uniqueId';
+import i18next from 'i18next';
+
+import resources from './locales/index.js';
 import View from './View.js';
 import initRenderer from './renderer.js';
 import parseUrlData from './parser.js';
+
+yup.setLocale({
+  mixed: {
+    required: 'errors.validation.required',
+  },
+  string: {
+    required: 'errors.validation.required',
+    url: 'errors.validation.url',
+  },
+});
 
 const schema = yup
   .string()
@@ -22,7 +35,14 @@ const pushRssDataToState = (state, url, feed, posts) => {
   state.posts.push(...relationedPosts);
 };
 
-export default () => {
+export default async () => {
+  const i18nInstance = i18next.createInstance();
+  await i18nInstance.init({
+    lng: 'ru',
+    debug: false,
+    resources,
+  });
+
   const state = {
     appStatus: 'initial',
     feeds: [],
@@ -33,7 +53,7 @@ export default () => {
       processResult: null,
     },
   };
-  const view = new View();
+  const view = new View(i18nInstance);
   const watchedState = initRenderer(state, view);
 
   view.rssForm.addEventListener('submit', (e) => {
@@ -51,20 +71,20 @@ export default () => {
 
         if (isUrlUniq) return sendRequest(url);
 
-        throw new yup.ValidationError('RSS already exists');
+        throw new yup.ValidationError('errors.validation.doubleUrl');
       })
       .then(({ config, data }) => {
         const { feed, posts } = parseUrlData(data);
 
         watchedState.appStatus = 'filled';
         watchedState.rssForm.processState = 'completed';
-        watchedState.rssForm.processResult = 'RSS loaded successfully';
+        watchedState.rssForm.processResult = i18nInstance.t('results.completed');
 
         pushRssDataToState(watchedState, config.params.url, feed, posts);
       })
       .catch((err) => {
         watchedState.rssForm.valid = err.name !== 'ValidationError';
-        watchedState.rssForm.processResult = err.message;
+        watchedState.rssForm.processResult = i18nInstance.t(err.message);
       })
       .then(() => {
         watchedState.rssForm.processState = 'filling';
