@@ -9,5 +9,10 @@
       <link>https://example-rss.io/example-posts/1</link>
       <description>Example post description</description>
     </item>
+    <item>
+      <title>Example new post title</title>
+      <link>https://example-rss.io/example-posts/2</link>
+      <description>Example new post description</description>
+    </item>
   </channel>
 </rss>
