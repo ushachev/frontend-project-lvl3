@@ -43,7 +43,7 @@ const startUpdatePosts = (state, updateTimeout) => {
           .map(({ link }) => link);
 
         const newPosts = posts.filter(({ link }) => !oldPostsLinks.includes(link))
-          .map((post) => ({ feedId: id, ...post }));
+          .map((post) => ({ id: uniqueId('post_'), feedId: id, ...post }));
 
         state.posts.push(...newPosts);
       }));
