@@ -23,7 +23,10 @@ const schema = yup
   .url();
 
 const proxyUrl = 'https://hexlet-allorigins.herokuapp.com/raw';
-const sendRequest = (url) => axios.get(proxyUrl, { params: { url, disableCache: true } });
+const sendRequest = (url) => axios.get(proxyUrl, { params: { url, disableCache: true } })
+  .catch(() => {
+    throw new Error('errors.network');
+  });
 
 const pushRssDataToState = (state, url, feed, posts) => {
   const id = uniqueId('feed_');
@@ -86,7 +89,7 @@ export default (state, i18n, updateTimeout) => (e) => {
     })
     .catch((err) => {
       state.rssForm.valid = err.name !== 'ValidationError';
-      state.rssForm.processResult = i18n.t(err.message);
+      state.rssForm.processResult = i18n.t(err.message, i18n.t('errors.unknown'));
     })
     .then(() => {
       state.rssForm.processState = 'filling';

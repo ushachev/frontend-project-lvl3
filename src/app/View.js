@@ -52,7 +52,7 @@ export default class View {
 
   renderPosts({ posts, shownPostsIds }) {
     const postItems = posts.map(({ id, title, link }) => {
-      const linkClass = shownPostsIds.includes(id) ? 'fw-normal' : 'fw-bold';
+      const linkClass = shownPostsIds.has(id) ? 'fw-normal' : 'fw-bold';
 
       return `
         <li class="list-group-item d-flex align-items-center p-3">

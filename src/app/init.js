@@ -17,7 +17,7 @@ export default async (updateTimeout = 5000) => {
     appStatus: 'initial',
     feeds: [],
     posts: [],
-    shownPostsIds: [],
+    shownPostsIds: new Set(),
     postToShowId: null,
     rssForm: {
       valid: true,

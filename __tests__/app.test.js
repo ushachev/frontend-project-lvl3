@@ -77,7 +77,7 @@ test('validate invalid input url', async () => {
   userEvent.click(elements.submit);
 
   await waitFor(() => {
-    expect(screen.getByText('не должно быть пустым')).toBeInTheDocument();
+    expect(screen.getByText('Не должно быть пустым')).toBeInTheDocument();
   });
 
   userEvent.type(elements.input, 'ru.hexlet.io/lessons.rss');
@@ -136,5 +136,17 @@ test('show post info', async () => {
   await waitFor(() => {
     expect(screen.getByRole('dialog')).toHaveTextContent('Example post description');
     expect(screen.getByRole('link', { name: 'Example post title' })).toHaveClass('fw-normal');
+  });
+});
+
+test('handle network error', async () => {
+  const url = 'https://example6-rss.io';
+  nock(proxyUrl).get('/raw').query({ url, disableCache: true }).reply(404);
+
+  userEvent.type(elements.input, url);
+  userEvent.click(elements.submit);
+
+  await waitFor(() => {
+    expect(screen.getByText('Ошибка сети')).toBeInTheDocument();
   });
 });

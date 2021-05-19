@@ -6,6 +6,7 @@
     "testURL": "https://hexlet-allorigins.herokuapp.com",
     "testRunner": "jest-circus/runner"
   },
+  "main": "src/init.js",
   "scripts": {
     "test": "jest --colors"
   },
