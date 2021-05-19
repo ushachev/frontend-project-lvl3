@@ -50,6 +50,7 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "bootstrap": "^5.0.1",
     "bootswatch": "^5.0.0",
     "i18next": "^20.2.2",
     "lodash": "^4.17.21",

@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import axios from 'axios';
 import uniqueId from 'lodash/uniqueId';
 
-import parseUrlData from './parser.js';
+import parseUrlData from '../parser.js';
 
 yup.setLocale({
   mixed: {
@@ -23,11 +23,11 @@ const schema = yup
   .url();
 
 const proxyUrl = 'https://hexlet-allorigins.herokuapp.com/raw';
-const sendRequest = (url) => axios.get(proxyUrl, { params: { url } });
+const sendRequest = (url) => axios.get(proxyUrl, { params: { url, disableCache: true } });
 
 const pushRssDataToState = (state, url, feed, posts) => {
-  const id = uniqueId();
-  const relationedPosts = posts.map((post) => ({ feedId: id, ...post }));
+  const id = uniqueId('feed_');
+  const relationedPosts = posts.map((post) => ({ id: uniqueId('post_'), feedId: id, ...post }));
 
   state.feeds.push({ id, url, ...feed });
   state.posts.push(...relationedPosts);

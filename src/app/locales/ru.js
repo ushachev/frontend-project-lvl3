@@ -14,6 +14,7 @@ export default {
     elements: {
       feedsTitle: 'Фиды',
       postsTitle: 'Посты',
+      readButton: 'Просмотр',
     },
   },
 };

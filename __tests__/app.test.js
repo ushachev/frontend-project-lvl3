@@ -36,7 +36,7 @@ beforeEach(() => {
 
 test('form is disabled while submitting', async () => {
   const url = 'https://example-rss.io/example';
-  nock(proxyUrl).get('/raw').query({ url }).reply(200);
+  nock(proxyUrl).get('/raw').query({ url, disableCache: true }).reply(200);
 
   userEvent.type(elements.input, url);
   expect(elements.submit).not.toBeDisabled();
@@ -50,7 +50,7 @@ test('form is disabled while submitting', async () => {
 
 test('can add url, cannot add the same one again', async () => {
   const url = 'https://example2-rss.io';
-  nock(proxyUrl).persist().get('/raw').query({ url })
+  nock(proxyUrl).persist().get('/raw').query({ url, disableCache: true })
     .reply(200, xmlContent);
 
   userEvent.type(elements.input, url);
@@ -90,7 +90,7 @@ test('validate invalid input url', async () => {
 
 test('handle resource that does not contain valid rss', async () => {
   const url = 'https://example3-rss.io';
-  nock(proxyUrl).get('/raw').query({ url }).reply(200, initialHtml);
+  nock(proxyUrl).get('/raw').query({ url, disableCache: true }).reply(200, initialHtml);
 
   userEvent.type(elements.input, url);
   userEvent.click(elements.submit);
@@ -102,8 +102,8 @@ test('handle resource that does not contain valid rss', async () => {
 
 test('update posts of existing feed', async () => {
   const url = 'https://example4-rss.io';
-  nock(proxyUrl).get('/raw').query({ url }).reply(200, xmlContent);
-  nock(proxyUrl).persist().get('/raw').query({ url })
+  nock(proxyUrl).get('/raw').query({ url, disableCache: true }).reply(200, xmlContent);
+  nock(proxyUrl).persist().get('/raw').query({ url, disableCache: true })
     .reply(200, updatedXmlContent);
 
   userEvent.type(elements.input, url);
@@ -115,5 +115,26 @@ test('update posts of existing feed', async () => {
 
   await waitFor(() => {
     expect(screen.getByText('Example new post title')).toBeInTheDocument();
+  });
+});
+
+test('show post info', async () => {
+  const url = 'https://example5-rss.io';
+  nock(proxyUrl).persist().get('/raw').query({ url, disableCache: true })
+    .reply(200, xmlContent);
+
+  userEvent.type(elements.input, url);
+  userEvent.click(elements.submit);
+
+  await waitFor(() => {
+    expect(screen.getByText('RSS успешно загружен')).toBeInTheDocument();
+  });
+
+  const readButton = screen.getByRole('button', { name: /просмотр/i });
+  userEvent.click(readButton);
+
+  await waitFor(() => {
+    expect(screen.getByRole('dialog')).toHaveTextContent('Example post description');
+    expect(screen.getByRole('link', { name: 'Example post title' })).toHaveClass('fw-normal');
   });
 });

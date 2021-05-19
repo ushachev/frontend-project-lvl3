@@ -27,7 +27,8 @@ export default (state, view) => {
     'rssForm.valid': () => view.rssUrlInput.classList.toggle('is-invalid'),
     appStatus: () => view.rssQuerySection.classList.toggle('my-auto'),
     feeds: () => view.renderFeeds(state.feeds),
-    posts: () => view.renderPosts(state.posts),
+    posts: () => view.renderPosts(state),
+    postToShowId: () => view.renderModal(state),
   };
 
   return onChange(state, (path) => statePathMapping[path]?.());

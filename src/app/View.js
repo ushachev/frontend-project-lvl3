@@ -1,13 +1,25 @@
+import { Modal } from 'bootstrap';
+
 export default class View {
   constructor(i18nInstance) {
     this.i18n = i18nInstance;
-    this.rssQuerySection = document.querySelector('#rssQuery');
-    this.rssForm = document.querySelector('#rssForm');
-    this.rssUrlInput = document.querySelector('#url');
+    this.rssQuerySection = document.getElementById('rssQuery');
+    this.rssForm = document.getElementById('rssForm');
+    this.rssUrlInput = document.getElementById('url');
     this.submitBtn = this.rssForm.querySelector('button[type="submit"]');
-    this.feedback = document.querySelector('#feedback');
-    this.feedsContainer = document.querySelector('#feedsContainer');
-    this.postsContainer = document.querySelector('#postsContainer');
+    this.feedback = document.getElementById('feedback');
+    this.feedsContainer = document.getElementById('feedsContainer');
+    this.postsContainer = document.getElementById('postsContainer');
+
+    this.modalTitle = document.getElementById('modalLabel');
+    this.modalBody = document.querySelector('.modal-body');
+    this.modalPostLink = document.getElementById('modalPostLink');
+    this.modal = new Modal(document.getElementById('modal'));
+  }
+
+  init(handlers) {
+    this.handlers = handlers;
+    this.rssForm.addEventListener('submit', this.handlers.handleRssFormSubmit);
   }
 
   disableForm(isDisabled) {
@@ -38,12 +50,18 @@ export default class View {
     `;
   }
 
-  renderPosts(posts) {
-    const postItems = posts.map(({ title, link }) => `
-      <li class="list-group-item p-3">
-        <a href="${link}" target="_blank">${title}</a>
-      </li>
-    `);
+  renderPosts({ posts, shownPostsIds }) {
+    const postItems = posts.map(({ id, title, link }) => {
+      const linkClass = shownPostsIds.includes(id) ? 'fw-normal' : 'fw-bold';
+
+      return `
+        <li class="list-group-item d-flex align-items-center p-3">
+          <a href="${link}" class="${linkClass} me-auto" data-id="${id}" target="_blank">${title}</a>
+          <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modal" data-id="${
+  id}">${this.i18n.t('elements.readButton')}</button>
+        </li>
+      `;
+    });
 
     this.postsContainer.innerHTML = `
       <h2>${this.i18n.t('elements.postsTitle')}</h2>
@@ -51,5 +69,23 @@ export default class View {
         ${postItems.join('\n')}
       </ul>
     `;
+
+    const readPostButtons = this.postsContainer.querySelectorAll('button');
+    [...readPostButtons]
+      .forEach((button) => button.addEventListener('click', this.handlers.handleReadPostButton));
+  }
+
+  renderModal({ postToShowId, posts }) {
+    const post = posts.find(({ id }) => id === postToShowId);
+    const postLink = this.postsContainer.querySelector(`a[data-id="${postToShowId}"]`);
+
+    this.modalTitle.textContent = post.title;
+    this.modalBody.textContent = post.description;
+    this.modalPostLink.href = post.link;
+
+    this.modal.show();
+
+    postLink.classList.remove('fw-bold');
+    postLink.classList.add('fw-normal');
   }
 }
