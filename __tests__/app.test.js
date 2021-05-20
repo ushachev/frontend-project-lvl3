@@ -34,7 +34,7 @@ beforeEach(() => {
   elements.input = screen.getByRole('textbox');
 });
 
-test.skip('form is disabled while submitting', async () => {
+test('form is disabled while submitting', async () => {
   const url = 'https://example-rss.io/example';
   nock(proxyUrl).get('/get').query({ url, disableCache: true }).reply(200);
 
@@ -72,7 +72,7 @@ test('can add url, cannot add the same one again', async () => {
   });
 });
 
-test.skip('validate invalid input url', async () => {
+test('validate invalid input url', async () => {
   userEvent.type(elements.input, ' ');
   userEvent.click(elements.submit);
 
@@ -88,7 +88,7 @@ test.skip('validate invalid input url', async () => {
   });
 });
 
-test.skip('handle resource that does not contain valid rss', async () => {
+test('handle resource that does not contain valid rss', async () => {
   const url = 'https://example3-rss.io';
   nock(proxyUrl).get('/get').query({ url, disableCache: true }).reply(200, initialHtml);
 
@@ -100,7 +100,7 @@ test.skip('handle resource that does not contain valid rss', async () => {
   });
 });
 
-test.skip('update posts of existing feed', async () => {
+test('update posts of existing feed', async () => {
   const url = 'https://example4-rss.io';
   nock(proxyUrl).get('/get').query({ url, disableCache: true }).reply(200, { contents: xmlContent });
   nock(proxyUrl).persist().get('/get').query({ url, disableCache: true })
@@ -118,7 +118,7 @@ test.skip('update posts of existing feed', async () => {
   });
 });
 
-test.skip('show post info', async () => {
+test('show post info', async () => {
   const url = 'https://example5-rss.io';
   nock(proxyUrl).persist().get('/get').query({ url, disableCache: true })
     .reply(200, { contents: xmlContent });
@@ -139,7 +139,7 @@ test.skip('show post info', async () => {
   });
 });
 
-test.skip('handle network error', async () => {
+test('handle network error', async () => {
   const url = 'https://example6-rss.io';
   nock(proxyUrl).get('/get').query({ url, disableCache: true }).reply(404);
 

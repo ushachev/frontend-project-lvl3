@@ -29,14 +29,10 @@ const sendRequest = (url) => axios.get(proxyUrl, { params: { url, disableCache: 
   });
 
 const pushRssDataToState = (state, url, feed, posts) => {
-  console.log('parsered feed:');
-  console.dir(feed);
   const id = uniqueId('feed_');
   const relationedPosts = posts.map((post) => ({ id: uniqueId('post_'), feedId: id, ...post }));
 
   state.feeds.push({ id, url, ...feed });
-  console.log('state.feeds after new feed pushed:');
-  console.dir(state.feeds);
   state.posts.push(...relationedPosts);
 };
 
@@ -72,19 +68,13 @@ export default (state, i18n, updateTimeout) => (e) => {
 
   schema.validate(formData.get('url'))
     .then((url) => {
-      console.log('url:', url);
-      console.log('state:');
-      console.dir(state);
       const isUrlUniq = !state.feeds.find((feed) => feed.url === url);
-      console.log('is url uniq:', isUrlUniq);
 
       if (isUrlUniq) return sendRequest(url);
 
       throw new yup.ValidationError('errors.validation.doubleUrl');
     })
-    .then((res) => {
-      console.dir(res);
-      const { config, data } = res;
+    .then(({ config, data }) => {
       const { feed, posts } = parseUrlData(data);
 
       if (state.appStatus === 'initial') {
@@ -93,12 +83,12 @@ export default (state, i18n, updateTimeout) => (e) => {
       }
 
       state.rssForm.processState = 'completed';
-      state.rssForm.processResult = i18n.t('results.completed');
+      state.rssForm.processState = 'filling';
 
+      state.rssForm.processResult = i18n.t('results.completed');
       pushRssDataToState(state, config.params.url, feed, posts);
     })
     .catch((err) => {
-      console.log('err.message:', err.message);
       state.rssForm.valid = err.name !== 'ValidationError';
       state.rssForm.processResult = i18n.t(err.message, i18n.t('errors.unknown'));
     })
