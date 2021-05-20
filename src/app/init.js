@@ -1,7 +1,7 @@
 import i18next from 'i18next';
 
 import resources from './locales/index.js';
-import initView from './view.js';
+import initView from './renderer.js';
 import initSubmitHandler from './submitHandler.js';
 
 export default async (updateTimeout = 5000) => {
