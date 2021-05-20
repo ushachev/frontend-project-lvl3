@@ -29,10 +29,14 @@ const sendRequest = (url) => axios.get(proxyUrl, { params: { url, disableCache: 
   });
 
 const pushRssDataToState = (state, url, feed, posts) => {
+  console.log('parsered feed:');
+  console.dir(feed);
   const id = uniqueId('feed_');
   const relationedPosts = posts.map((post) => ({ id: uniqueId('post_'), feedId: id, ...post }));
 
   state.feeds.push({ id, url, ...feed });
+  console.log('state.feeds after new feed pushed:');
+  console.dir(state.feeds);
   state.posts.push(...relationedPosts);
 };
 
@@ -69,6 +73,7 @@ export default (state, i18n, updateTimeout) => (e) => {
   schema.validate(formData.get('url'))
     .then((url) => {
       console.log('url:', url);
+      console.log('state.feeds:');
       console.dir(state.feeds);
       const isUrlUniq = !state.feeds.find((feed) => feed.url === url);
       console.log('is url uniq:', isUrlUniq);
