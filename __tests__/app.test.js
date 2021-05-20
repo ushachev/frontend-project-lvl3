@@ -36,7 +36,7 @@ beforeEach(() => {
 
 test('form is disabled while submitting', async () => {
   const url = 'https://example-rss.io/example';
-  nock(proxyUrl).get('/raw').query({ url, disableCache: true }).reply(200);
+  nock(proxyUrl).get('/get').query({ url, disableCache: true }).reply(200);
 
   userEvent.type(elements.input, url);
   expect(elements.submit).not.toBeDisabled();
@@ -50,8 +50,8 @@ test('form is disabled while submitting', async () => {
 
 test('can add url, cannot add the same one again', async () => {
   const url = 'https://example2-rss.io';
-  nock(proxyUrl).persist().get('/raw').query({ url, disableCache: true })
-    .reply(200, xmlContent);
+  nock(proxyUrl).persist().get('/get').query({ url, disableCache: true })
+    .reply(200, { contents: xmlContent });
 
   userEvent.type(elements.input, url);
   userEvent.click(elements.submit);
@@ -90,7 +90,7 @@ test('validate invalid input url', async () => {
 
 test('handle resource that does not contain valid rss', async () => {
   const url = 'https://example3-rss.io';
-  nock(proxyUrl).get('/raw').query({ url, disableCache: true }).reply(200, initialHtml);
+  nock(proxyUrl).get('/get').query({ url, disableCache: true }).reply(200, initialHtml);
 
   userEvent.type(elements.input, url);
   userEvent.click(elements.submit);
@@ -102,9 +102,9 @@ test('handle resource that does not contain valid rss', async () => {
 
 test('update posts of existing feed', async () => {
   const url = 'https://example4-rss.io';
-  nock(proxyUrl).get('/raw').query({ url, disableCache: true }).reply(200, xmlContent);
-  nock(proxyUrl).persist().get('/raw').query({ url, disableCache: true })
-    .reply(200, updatedXmlContent);
+  nock(proxyUrl).get('/get').query({ url, disableCache: true }).reply(200, { contents: xmlContent });
+  nock(proxyUrl).persist().get('/get').query({ url, disableCache: true })
+    .reply(200, { contents: updatedXmlContent });
 
   userEvent.type(elements.input, url);
   userEvent.click(elements.submit);
@@ -120,8 +120,8 @@ test('update posts of existing feed', async () => {
 
 test('show post info', async () => {
   const url = 'https://example5-rss.io';
-  nock(proxyUrl).persist().get('/raw').query({ url, disableCache: true })
-    .reply(200, xmlContent);
+  nock(proxyUrl).persist().get('/get').query({ url, disableCache: true })
+    .reply(200, { contents: xmlContent });
 
   userEvent.type(elements.input, url);
   userEvent.click(elements.submit);
@@ -141,7 +141,7 @@ test('show post info', async () => {
 
 test('handle network error', async () => {
   const url = 'https://example6-rss.io';
-  nock(proxyUrl).get('/raw').query({ url, disableCache: true }).reply(404);
+  nock(proxyUrl).get('/get').query({ url, disableCache: true }).reply(404);
 
   userEvent.type(elements.input, url);
   userEvent.click(elements.submit);

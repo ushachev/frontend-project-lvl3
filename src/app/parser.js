@@ -1,6 +1,6 @@
-export default (data) => {
+export default ({ contents }) => {
   const parser = new DOMParser();
-  const xml = parser.parseFromString(data, 'application/xml');
+  const xml = parser.parseFromString(contents, 'application/xml');
 
   if (xml.documentElement.nodeName !== 'rss') {
     throw new Error('errors.parsing');

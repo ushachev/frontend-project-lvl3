@@ -22,7 +22,7 @@ const schema = yup
   .required()
   .url();
 
-const proxyUrl = 'https://hexlet-allorigins.herokuapp.com/raw';
+const proxyUrl = 'https://hexlet-allorigins.herokuapp.com/get';
 const sendRequest = (url) => axios.get(proxyUrl, { params: { url, disableCache: true } })
   .catch(() => {
     throw new Error('errors.network');
