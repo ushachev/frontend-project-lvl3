@@ -10,16 +10,13 @@ import initApp from '../src/app/init.js';
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 
 const elements = {};
+const contents = {};
 const proxyUrl = 'https://hexlet-allorigins.herokuapp.com';
 
-let initialHtml;
-let xmlContent;
-let updatedXmlContent;
-
 beforeAll(async () => {
-  initialHtml = await fs.readFile(getFixturePath('index.html'), 'utf-8');
-  xmlContent = await fs.readFile(getFixturePath('rss.xml'), 'utf-8');
-  updatedXmlContent = await fs.readFile(getFixturePath('updated-rss.xml'), 'utf-8');
+  contents.initialHtml = await fs.readFile(getFixturePath('index.html'), 'utf-8');
+  contents.xmlContent = await fs.readFile(getFixturePath('rss.xml'), 'utf-8');
+  contents.updatedXmlContent = await fs.readFile(getFixturePath('updated-rss.xml'), 'utf-8');
 });
 
 afterAll(() => {
@@ -27,7 +24,7 @@ afterAll(() => {
 });
 
 beforeEach(() => {
-  document.body.innerHTML = initialHtml;
+  document.body.innerHTML = contents.initialHtml;
   initApp(500);
 
   elements.submit = screen.getByRole('button');
@@ -39,21 +36,21 @@ test('form is disabled while submitting', async () => {
   nock(proxyUrl).get('/get').query({ url, disableCache: true }).reply(200);
 
   userEvent.type(elements.input, url);
-  expect(elements.submit).not.toBeDisabled();
+  expect(elements.submit).toBeEnabled();
   userEvent.click(elements.submit);
   expect(elements.input).toHaveAttribute('readonly');
   expect(elements.submit).toBeDisabled();
 
   await waitFor(() => {
     expect(elements.input).not.toHaveAttribute('readonly');
-    expect(elements.submit).not.toBeDisabled();
+    expect(elements.submit).toBeEnabled();
   });
 });
 
 test('can add url, cannot add the same one again', async () => {
   const url = 'https://example2-rss.io';
   nock(proxyUrl).persist().get('/get').query({ url, disableCache: true })
-    .reply(200, { contents: xmlContent });
+    .reply(200, { contents: contents.xmlContent });
 
   userEvent.type(elements.input, url);
   userEvent.click(elements.submit);
@@ -63,7 +60,7 @@ test('can add url, cannot add the same one again', async () => {
     expect(screen.getByText('Example feed description')).toBeInTheDocument();
     expect(screen.getByText('Example post title')).toBeInTheDocument();
     expect(screen.getByText('RSS успешно загружен')).toBeInTheDocument();
-    expect(elements.submit).not.toBeDisabled();
+    expect(elements.submit).toBeEnabled();
   });
 
   userEvent.type(elements.input, url);
@@ -92,7 +89,7 @@ test('validate invalid input url', async () => {
 
 test('handle resource that does not contain valid rss', async () => {
   const url = 'https://example3-rss.io';
-  nock(proxyUrl).get('/get').query({ url, disableCache: true }).reply(200, initialHtml);
+  nock(proxyUrl).get('/get').query({ url, disableCache: true }).reply(200, contents.initialHtml);
 
   userEvent.type(elements.input, url);
   userEvent.click(elements.submit);
@@ -104,9 +101,10 @@ test('handle resource that does not contain valid rss', async () => {
 
 test('update posts of existing feed', async () => {
   const url = 'https://example4-rss.io';
-  nock(proxyUrl).get('/get').query({ url, disableCache: true }).reply(200, { contents: xmlContent });
+  nock(proxyUrl).get('/get').query({ url, disableCache: true })
+    .reply(200, { contents: contents.xmlContent });
   nock(proxyUrl).persist().get('/get').query({ url, disableCache: true })
-    .reply(200, { contents: updatedXmlContent });
+    .reply(200, { contents: contents.updatedXmlContent });
 
   userEvent.type(elements.input, url);
   userEvent.click(elements.submit);
@@ -123,7 +121,7 @@ test('update posts of existing feed', async () => {
 test('show post info', async () => {
   const url = 'https://example5-rss.io';
   nock(proxyUrl).persist().get('/get').query({ url, disableCache: true })
-    .reply(200, { contents: xmlContent });
+    .reply(200, { contents: contents.xmlContent });
 
   userEvent.type(elements.input, url);
   userEvent.click(elements.submit);

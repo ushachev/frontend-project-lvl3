@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import axios from 'axios';
 import uniqueId from 'lodash/uniqueId';
 
-import parseUrlData from '../parser.js';
+import parseUrlData from './parser.js';
 
 yup.setLocale({
   mixed: {
@@ -83,9 +83,8 @@ export default (state, i18n, updateTimeout) => (e) => {
       }
 
       state.rssForm.processState = 'completed';
-      state.rssForm.processState = 'filling';
-
       state.rssForm.processResult = i18n.t('results.completed');
+
       pushRssDataToState(state, config.params.url, feed, posts);
     })
     .catch((err) => {
