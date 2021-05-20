@@ -69,7 +69,7 @@ export default (state, i18n, updateTimeout) => (e) => {
   schema.validate(formData.get('url'))
     .then((url) => {
       console.log('url:', url);
-      console.log('feed urls:', state.feeds.map((feed) => feed.url));
+      console.dir(state.feeds);
       const isUrlUniq = !state.feeds.find((feed) => feed.url === url);
       console.log('is url uniq:', isUrlUniq);
 
@@ -77,7 +77,9 @@ export default (state, i18n, updateTimeout) => (e) => {
 
       throw new yup.ValidationError('errors.validation.doubleUrl');
     })
-    .then(({ config, data }) => {
+    .then((res) => {
+      console.dir(res);
+      const { config, data } = res;
       const { feed, posts } = parseUrlData(data);
 
       if (state.appStatus === 'initial') {
