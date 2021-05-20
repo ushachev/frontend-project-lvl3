@@ -137,7 +137,6 @@ test('show post info', async () => {
 
   await waitFor(() => {
     expect(screen.getByRole('dialog')).toHaveTextContent('Example post description');
-    expect(screen.getByRole('link', { name: 'Example post title' })).toHaveClass('fw-normal');
   });
 });
 

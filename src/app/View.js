@@ -56,7 +56,7 @@ export default class View {
 
   renderPosts({ posts, shownPostsIds }) {
     const postItems = posts.map(({ id, title, link }) => {
-      const linkClass = shownPostsIds.has(id) ? 'fw-normal' : 'fw-bold';
+      const linkClass = shownPostsIds.has(id) ? 'font-weight-normal' : 'font-weight-bold';
 
       return `
         <li class="list-group-item d-flex align-items-center p-3">
@@ -89,7 +89,7 @@ export default class View {
 
     this.modal.show();
 
-    postLink.classList.remove('fw-bold');
-    postLink.classList.add('fw-normal');
+    postLink.classList.remove('font-weight-bold');
+    postLink.classList.add('font-weight-normal');
   }
 }
