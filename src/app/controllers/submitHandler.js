@@ -68,7 +68,10 @@ export default (state, i18n, updateTimeout) => (e) => {
 
   schema.validate(formData.get('url'))
     .then((url) => {
+      console.log('url:', url);
+      console.log('feed urls:', state.feeds.map((feed) => feed.url));
       const isUrlUniq = !state.feeds.find((feed) => feed.url === url);
+      console.log('is url uniq:', isUrlUniq);
 
       if (isUrlUniq) return sendRequest(url);
 
@@ -88,6 +91,7 @@ export default (state, i18n, updateTimeout) => (e) => {
       pushRssDataToState(state, config.params.url, feed, posts);
     })
     .catch((err) => {
+      console.log('err.message:', err.message);
       state.rssForm.valid = err.name !== 'ValidationError';
       state.rssForm.processResult = i18n.t(err.message, i18n.t('errors.unknown'));
     })
