@@ -18,8 +18,6 @@ const renderForm = (state, elements) => {
 
     case 'completed':
       elements.rssForm.reset();
-      elements.submitBtn.disabled = false;
-      elements.rssUrlInput.removeAttribute('readonly');
       break;
 
     default:
@@ -53,7 +51,7 @@ const renderFeeds = (feeds, elements, i18n) => {
 const renderPosts = (state, elements, i18n) => {
   const { posts, shownPostsIds } = state;
   const postItems = posts.map(({ id, title, link }) => {
-    const linkClass = shownPostsIds.has(id) ? 'font-weight-normal' : 'font-weight-bold';
+    const linkClass = shownPostsIds.has(id) ? 'fw-normal' : 'fw-bold';
 
     return `
       <li class="list-group-item d-flex align-items-center p-3">
@@ -90,8 +88,8 @@ const renderModal = ({ postToShowId, posts }, elements, modal) => {
 
   modal.show();
 
-  postLink.classList.remove('font-weight-bold');
-  postLink.classList.add('font-weight-normal');
+  postLink.classList.remove('fw-bold');
+  postLink.classList.add('fw-normal');
 };
 
 export default (state, elements, i18n) => {
