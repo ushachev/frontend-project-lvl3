@@ -41,9 +41,11 @@ test('form is disabled while submitting', async () => {
   userEvent.type(elements.input, url);
   expect(elements.submit).not.toBeDisabled();
   userEvent.click(elements.submit);
+  expect(elements.input).toHaveAttribute('readonly');
   expect(elements.submit).toBeDisabled();
 
   await waitFor(() => {
+    expect(elements.input).not.toHaveAttribute('readonly');
     expect(elements.submit).not.toBeDisabled();
   });
 });

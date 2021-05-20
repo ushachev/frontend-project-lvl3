@@ -23,8 +23,12 @@ export default class View {
   }
 
   disableForm(isDisabled) {
-    this.rssUrlInput.disabled = isDisabled;
     this.submitBtn.disabled = isDisabled;
+    if (isDisabled) {
+      this.rssUrlInput.setAttribute('readonly', '');
+    } else {
+      this.rssUrlInput.removeAttribute('readonly');
+    }
   }
 
   renderFeedback({ rssForm: { processState, processResult } }) {
