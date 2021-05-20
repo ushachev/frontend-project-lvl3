@@ -73,8 +73,8 @@ export default (state, i18n, updateTimeout) => (e) => {
   schema.validate(formData.get('url'))
     .then((url) => {
       console.log('url:', url);
-      console.log('state.feeds:');
-      console.dir(state.feeds);
+      console.log('state:');
+      console.dir(state);
       const isUrlUniq = !state.feeds.find((feed) => feed.url === url);
       console.log('is url uniq:', isUrlUniq);
 
