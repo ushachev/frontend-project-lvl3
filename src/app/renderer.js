@@ -73,14 +73,14 @@ const renderPosts = (state, elements, i18n) => {
   [...readPostButtons].forEach((button) => button.addEventListener('click', (e) => {
     const { id } = e.target.dataset;
 
-    state.postToShowId = id;
+    state.modal.postId = id;
     state.shownPostsIds.add(id);
   }));
 };
 
-const renderModal = ({ postToShowId, posts }, elements, modal) => {
-  const post = posts.find(({ id }) => id === postToShowId);
-  const postLink = elements.postsContainer.querySelector(`a[data-id="${postToShowId}"]`);
+const renderModal = (state, elements, modal) => {
+  const post = state.posts.find(({ id }) => id === state.modal.postId);
+  const postLink = elements.postsContainer.querySelector(`a[data-id="${state.modal.postId}"]`);
 
   elements.modalTitle.textContent = post.title;
   elements.modalBody.textContent = post.description;
@@ -102,7 +102,7 @@ export default (state, elements, i18n) => {
     appStatus: () => elements.rssQuerySection.classList.toggle('my-auto'),
     feeds: () => renderFeeds(state.feeds, elements, i18n),
     posts: (watchedState) => renderPosts(watchedState, elements, i18n),
-    postToShowId: () => renderModal(state, elements, modal),
+    'modal.postId': () => renderModal(state, elements, modal),
   };
 
   const watchedState = onChange(state, (path) => statePathMapping[path]?.(watchedState));

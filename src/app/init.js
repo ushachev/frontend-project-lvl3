@@ -17,11 +17,13 @@ export default async (updateTimeout = 5000) => {
     feeds: [],
     posts: [],
     shownPostsIds: new Set(),
-    postToShowId: null,
     rssForm: {
       valid: true,
       processState: 'filling',
       processResult: null,
+    },
+    modal: {
+      postId: null,
     },
   };
 

@@ -70,9 +70,11 @@ export default (state, i18n, updateTimeout) => (e) => {
     .then((url) => {
       const isUrlUniq = !state.feeds.find((feed) => feed.url === url);
 
-      if (isUrlUniq) return sendRequest(url);
+      if (!isUrlUniq) {
+        throw new yup.ValidationError('errors.validation.doubleUrl');
+      }
 
-      throw new yup.ValidationError('errors.validation.doubleUrl');
+      return sendRequest(url);
     })
     .then(({ config, data }) => {
       const { feed, posts } = parseUrlData(data);

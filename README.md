@@ -5,9 +5,6 @@ Educational "Project #3" is being developed as part of "Frontend Javascript" pro
 [Read more about Hexlet (in Russian)](https://ru.hexlet.io/pages/about?utm_source=github&utm_medium=link&utm_campaign=nodejs-package).
 ##
 
-### Hexlet tests and linter status:
-[![Actions Status](https://github.com/ushachev/frontend-project-lvl3/workflows/hexlet-check/badge.svg)](https://github.com/ushachev/frontend-project-lvl3/actions)
-
 # RSS aggregator
 
 [![Node.js CI](https://github.com/ushachev/frontend-project-lvl3/actions/workflows/nodejs.yml/badge.svg)](https://github.com/ushachev/frontend-project-lvl3/actions/workflows/nodejs.yml)
