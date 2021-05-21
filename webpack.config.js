@@ -1,3 +1,4 @@
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const mode = process.env.NODE_ENV || 'development';
@@ -7,6 +8,11 @@ module.exports = {
   mode,
   output: {
     clean: true,
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
   },
   target: isDevelopment ? 'web' : 'browserslist',
   devtool: isDevelopment ? 'eval-cheap-module-source-map' : 'source-map',
@@ -21,7 +27,10 @@ module.exports = {
       },
       {
         test: /\.css$/i,
-        use: ['style-loader', 'css-loader'],
+        use: [
+          isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+          'css-loader',
+        ],
       },
     ],
   },
@@ -30,5 +39,5 @@ module.exports = {
       template: 'index.html',
       inject: 'body',
     }),
-  ],
+  ].concat(isDevelopment ? [] : [new MiniCssExtractPlugin()]),
 };
